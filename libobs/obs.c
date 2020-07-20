@@ -279,6 +279,7 @@ static int obs_init_graphics(struct obs_video_info *ovi)
 	errorcode =
 		gs_create(&video->graphics, ovi->graphics_module, ovi->adapter);
 	if (errorcode != GS_SUCCESS) {
+		blog(LOG_ERROR, "gs_create Failed");
 		switch (errorcode) {
 		case GS_ERROR_MODULE_NOT_FOUND:
 			return OBS_VIDEO_MODULE_NOT_FOUND;
@@ -1152,6 +1153,7 @@ int obs_reset_video(struct obs_video_info *ovi)
 		int errorcode = obs_init_graphics(ovi);
 		if (errorcode != OBS_VIDEO_SUCCESS) {
 			obs_free_graphics();
+                        blog(LOG_ERROR, "obs_init_graphics failed");
 			return errorcode;
 		}
 	}
