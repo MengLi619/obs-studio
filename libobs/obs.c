@@ -215,15 +215,19 @@ static bool obs_init_textures(struct obs_video_info *ovi)
 		} else {
 #endif
 			if (video->gpu_conversion) {
-				if (!obs_init_gpu_copy_surfaces(ovi, i))
+				if (!obs_init_gpu_copy_surfaces(ovi, i)) {
+					blog(LOG_ERROR, "obs_init_gpu_copy_surfaces Failed");
 					return false;
+				}
 			} else {
 				video->copy_surfaces[i][0] =
 					gs_stagesurface_create(
 						ovi->output_width,
 						ovi->output_height, GS_RGBA);
-				if (!video->copy_surfaces[i][0])
+				if (!video->copy_surfaces[i][0]) {
+					blog(LOG_ERROR, "obs_init_gpu_copy_surfaces Failed");
 					return false;
+				}
 			}
 #ifdef _WIN32
 		}
@@ -234,15 +238,20 @@ static bool obs_init_textures(struct obs_video_info *ovi)
 						  ovi->base_height, GS_RGBA, 1,
 						  NULL, GS_RENDER_TARGET);
 
-	if (!video->render_texture)
+	if (!video->render_texture) {
+		blog(LOG_ERROR, "gs_texture_create Failed");
 		return false;
+	}
+		
 
 	video->output_texture = gs_texture_create(ovi->output_width,
 						  ovi->output_height, GS_RGBA,
 						  1, NULL, GS_RENDER_TARGET);
 
-	if (!video->output_texture)
+	if (!video->output_texture) {
+		blog(LOG_ERROR, "gs_texture_create Failed");
 		return false;
+	}
 
 	return true;
 }
@@ -408,20 +417,27 @@ static int obs_init_video(struct obs_video_info *ovi)
 		} else {
 			blog(LOG_ERROR, "Could not open video output");
 		}
+		blog(LOG_ERROR, "Failed to video_output_open: " + std::to_string(errorcode));
 		return OBS_VIDEO_FAIL;
 	}
 
 	gs_enter_context(video->graphics);
 
-	if (ovi->gpu_conversion && !obs_init_gpu_conversion(ovi))
+	if (ovi->gpu_conversion && !obs_init_gpu_conversion(ovi)) {
+		blog(LOG_ERROR, "obs_init_gpu_conversion Failed");
 		return OBS_VIDEO_FAIL;
-	if (!obs_init_textures(ovi))
+	}
+
+	if (!obs_init_textures(ovi)) {
+		blog(LOG_ERROR, "obs_init_textures Failed");
 		return OBS_VIDEO_FAIL;
+	}
 
 	gs_leave_context();
 
 	if (pthread_mutexattr_init(&attr) != 0)
 		return OBS_VIDEO_FAIL;
+	}
 	if (pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE) != 0)
 		return OBS_VIDEO_FAIL;
 	if (pthread_mutex_init(&video->gpu_encoder_mutex, NULL) < 0)
