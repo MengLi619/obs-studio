@@ -347,24 +347,47 @@ static int obs_init_graphics(struct obs_video_info *ovi)
 	obs->video.transparent_texture =
 		gs_texture_create(2, 2, GS_RGBA, 1, &transparent_tex, 0);
 
-	if (!video->default_effect)
-		success = false;
-	if (gs_get_device_type() == GS_DEVICE_OPENGL) {
-		if (!video->default_rect_effect)
-			success = false;
+	if (!video->default_effect) {
+                blog(LOG_ERROR, "default_effect failed");
+                success = false;
 	}
-	if (!video->opaque_effect)
-		success = false;
-	if (!video->solid_effect)
-		success = false;
-	if (!video->conversion_effect)
-		success = false;
-	if (!video->premultiplied_alpha_effect)
-		success = false;
-	if (!video->transparent_texture)
-		success = false;
-	if (!video->point_sampler)
-		success = false;
+
+	if (gs_get_device_type() == GS_DEVICE_OPENGL) {
+		if (!video->default_rect_effect) {
+                        blog(LOG_ERROR, "default_rect_effect failed");
+                        success = false;
+		}
+
+	}
+	if (!video->opaque_effect) {
+                blog(LOG_ERROR, "opaque_effect failed");
+                success = false;
+	}
+
+	if (!video->solid_effect) {
+                blog(LOG_ERROR, "solid_effect failed");
+                success = false;
+	}
+
+	if (!video->conversion_effect) {
+                blog(LOG_ERROR, "conversion_effect failed");
+                success = false;
+	}
+
+	if (!video->premultiplied_alpha_effect) {
+                blog(LOG_ERROR, "premultiplied_alpha_effect failed");
+                success = false;
+	}
+
+	if (!video->transparent_texture) {
+                blog(LOG_ERROR, "transparent_texture failed");
+                success = false;
+	}
+
+	if (!video->point_sampler) {
+                blog(LOG_ERROR, "point_sampler failed");
+                success = false;
+	}
 
 	gs_leave_context();
 	return success ? OBS_VIDEO_SUCCESS : OBS_VIDEO_FAIL;
