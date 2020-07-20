@@ -1,5 +1,6 @@
 #include <string.h>
 #include <glad/glad_glx.h>
+#include <util/base.h>
 
 static void* get_proc(const char *namez);
 
