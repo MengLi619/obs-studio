@@ -175,10 +175,10 @@ static bool gl_context_create(struct gl_platform *plat)
 	GLXContext context;
 	bool success = false;
 
-	if (!GLAD_GLX_ARB_create_context) {
-		blog(LOG_ERROR, "ARB_GLX_create_context not supported!");
-		return false;
-	}
+//	if (!GLAD_GLX_ARB_create_context) {
+//		blog(LOG_ERROR, "ARB_GLX_create_context not supported!");
+//		return false;
+//	}
 
 	config = glXChooseFBConfig(display, DefaultScreen(display),
 				   ctx_visual_attribs, &frame_buf_config_count);

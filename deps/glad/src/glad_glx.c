@@ -1,6 +1,5 @@
 #include <string.h>
 #include <glad/glad_glx.h>
-#include <util/base.h>
 
 static void* get_proc(const char *namez);
 
@@ -122,7 +121,6 @@ static int has_ext(const char *ext) {
         return 0;
 
     extensions = glXQueryExtensionsString(GLADGLXDisplay, GLADGLXscreen);
-    blog(LOG_INFO, extensions);
 
     if(extensions == NULL || ext == NULL)
         return 0;
@@ -511,7 +509,7 @@ static void load_GLX_MESA_query_renderer(GLADloadproc load) {
 	glad_glXQueryRendererStringMESA = (PFNGLXQUERYRENDERERSTRINGMESAPROC)load("glXQueryRendererStringMESA");
 }
 static void load_GLX_ARB_create_context(GLADloadproc load) {
-	if(!GLAD_GLX_ARB_create_context) return;
+//	if(!GLAD_GLX_ARB_create_context) return;
 	glad_glXCreateContextAttribsARB = (PFNGLXCREATECONTEXTATTRIBSARBPROC)load("glXCreateContextAttribsARB");
 }
 static void load_GLX_SGIX_fbconfig(GLADloadproc load) {
