@@ -417,7 +417,7 @@ static int obs_init_video(struct obs_video_info *ovi)
 		} else {
 			blog(LOG_ERROR, "Could not open video output");
 		}
-		blog(LOG_ERROR, "Failed to video_output_open: " + std::to_string(errorcode));
+		blog(LOG_ERROR, "Failed to video_output_open");
 		return OBS_VIDEO_FAIL;
 	}
 
@@ -436,8 +436,7 @@ static int obs_init_video(struct obs_video_info *ovi)
 	gs_leave_context();
 
 	if (pthread_mutexattr_init(&attr) != 0)
-		return OBS_VIDEO_FAIL;
-	}
+                return OBS_VIDEO_FAIL;
 	if (pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE) != 0)
 		return OBS_VIDEO_FAIL;
 	if (pthread_mutex_init(&video->gpu_encoder_mutex, NULL) < 0)
