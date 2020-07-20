@@ -121,6 +121,7 @@ static int has_ext(const char *ext) {
         return 0;
 
     extensions = glXQueryExtensionsString(GLADGLXDisplay, GLADGLXscreen);
+    blog(LOG_INFO, extensions);
 
     if(extensions == NULL || ext == NULL)
         return 0;
